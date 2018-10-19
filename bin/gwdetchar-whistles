@@ -131,7 +131,12 @@ for seg in state.active:
 		bcs = (be[1:	] + be[:-1])/2
 		
 		whistles.write_histogram('%s-HISTOGRAMS'%tag, bin_centers=bcs, hist_trigger_vco, hist_overall_vco, detrend_func)
-		
+	
+
+
+
+
+
 		
 		
 		
