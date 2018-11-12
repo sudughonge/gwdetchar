@@ -131,13 +131,6 @@ for seg in state.active:
 		bcs = (be[1:	] + be[:-1])/2
 		
 		whistles.write_histogram('%s-HISTOGRAMS'%tag, bin_centers=bcs, hist_trigger_vco, hist_overall_vco, detrend_func)
-	
-
-
-
-
-
+		whistles.plot_trigger_histogram('%s-HISTOGRAMS'%tag, bcs, hist_trigger_vco, time=(seg[1] -seg[0]), label='%s Triggers'%chan )
 		
-		
-		
-		
+		whistles.iterative_fitting()
