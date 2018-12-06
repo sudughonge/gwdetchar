@@ -44,6 +44,12 @@ else:
 from gwdetchar import (cli, const, scattering, __version__)
 from gwpy.segments import (DataQualityFlag, DataQualityDict,
                            Segment, SegmentList)
+
+
+#Added this so we can make html
+from gwdetchar.io import html as htmlio
+import gwdetchar.whistles as gww
+
     
     
 # update rcParams
@@ -67,8 +73,7 @@ parser.add_argument('config-file', type=str, help='Config file for the analysis'
 parser.add_argument('-o', '--output-dir', type=str, default=os.curdir, 
 										help='Output directory to post all the results of the analysis')
 parser.add_argument('-p', '--padding', type=str, default=8,
-										help='Add padding to the VCO fetch to accommodate the possible time lag between
-										IMC-F and VCO')
+										help='Add padding to the VCO fetch to accommodate the possible time lag between IMC-F and VCO')
 parser.add_argument('-m', '--no-imcf', action='store_true', 
 										help='Skip the fitting with IMC-F step', default=False)
 parser.add_argument('-d', '--detrend', choices=['linear', 'constant'], default='constant')
@@ -95,6 +100,9 @@ state = DataQualityFlag.query(flag, int(gpsstart),
                                   int(gpsend), url=const.O1_SEGMENT_SERVER)
 
 
+
+#HTML BELOW
+
 # Start html
 
 page = htmlio.new_bootstrap_page(title='%s scattering' % args.ifo)
@@ -105,6 +113,10 @@ page.h1('%s scattering: %d-%d'
 page.p("This analysis looks for whistles in the data using a technique developed by Patrick Meyers.")
 page.div.close()
 
+
+
+
+
 # link XML file
 # print state segments
 page.p('This analysis was executed over the following segments:')
@@ -113,10 +125,18 @@ page.add(str(htmlio.write_flag_html(state, 'state', parent='accordion1',
                                         context='success', id='state')))
 page.div.close()
 
+# page.twotags["DIV"]
+
+#HTML ABOVE
+
+
 for seg in state.active:
 	vco_signal, vco_pred = whistles.get_vco_timeseries(ifo, seg[0]-padding, seg[1]+padding, fit_imcf=~no_imcf, **io_kw )
 	detrend_func = whistles.vco_detrend(vco_pred, detrend)
 	vco_after_detrend = vco_pred - detrend_func(vco_pred.times.value)
+
+	page.div(class_='panel-heading')
+	page.p('This is segment' + seg)
 		
 	
 	for chan in channels:
@@ -134,3 +154,17 @@ for seg in state.active:
 		whistles.plot_trigger_histogram('%s-HISTOGRAMS'%tag, bcs, hist_trigger_vco, time=(seg[1] -seg[0]), label='%s Triggers'%chan )
 		
 		whistles.iterative_fitting()
+
+		page.div(class_='panel-heading')
+		page.div()
+
+# write HTML
+page.div.close()
+with open('index.html', 'w') as fp:
+    fp.write(str(page))
+if args.verbose:
+    gprint("-- index.html written, all done --")
+
+
+
+

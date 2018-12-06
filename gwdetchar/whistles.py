@@ -27,7 +27,7 @@ def get_vco_timeseries(ifo, gpsstart, gpsend,fit_imcf=True, **kwargs):
 	vco_name = '%s:SYS-TIMING_C_FO_A_PORT_11_SLAVE_CFC_FREQUENCY_5'%ifo
 	imcf_name = '%s:IMC-F_OUT_DQ'%ifo	
 	vco_ts = TimeSeries.get(vco_name, gpsstart , gpsend, **kwargs)
-	if(fit_imcf):
+	if fit_imcf:
 		imcf = TimeSeries.get(imcf_name,gpsstart, gpsend, **kwargs)
 		roll_values = np.arange(-1024, 1024, 1024/128.)
 		resids = []
@@ -59,7 +59,7 @@ def get_vco_timeseries(ifo, gpsstart, gpsend,fit_imcf=True, **kwargs):
 
 def get_trigger_vco_value(vco_pred, peak_times, fit_imcf=True):
 	vco_col = np.zeros(len(peak_times))
-	if(fit_imcf):
+	if fit_imcf:
 		for i, pt in enumerate(peak_times):
 			try:
 				vco = vco_pred.value_at(np.round(pt, 2))
@@ -91,7 +91,7 @@ def vco_detrend(vco_pred, detrend='constant'):
 		x = vco_pred.times.value
 		x = x
 		y = b.value
-		if(detrend=='constant')
+		if detrend == 'constant'
 			z = np.polyfit(x,y,0)
 		else:
 			z = np.polyfit(x,y,1)
