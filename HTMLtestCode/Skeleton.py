@@ -24,6 +24,10 @@ page.button.close()
 page.div(class_='panel-heading')
 page.p('This is segment' + 'seg')
 
+for x in range(4):
+    for y in range(4):
+        
+
 
 # link XML file
 page.a()
