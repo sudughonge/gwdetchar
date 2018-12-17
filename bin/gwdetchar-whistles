@@ -136,7 +136,7 @@ for seg in state.active:
 	vco_after_detrend = vco_pred - detrend_func(vco_pred.times.value)
 
 	page.div(class_='panel-heading')
-	page.p('This is segment' + seg)
+	page.p('This is segment ' + seg)
 		
 	
 	for chan in channels:
@@ -156,7 +156,24 @@ for seg in state.active:
 		whistles.iterative_fitting()
 
 		page.div(class_='panel-heading')
-		page.div()
+		page.p('This is channel ' + chan)
+
+		#print figures here
+
+		#label figure
+		page.p('This figure is...')
+
+
+		#add link to xml file
+		page.a()
+		page.p('XML file link here')
+		page.a.close()
+
+		page.div.close()
+
+
+
+	page.div.close()
 
 # write HTML
 page.div.close()

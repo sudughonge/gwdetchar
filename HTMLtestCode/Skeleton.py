@@ -7,25 +7,24 @@ from gwdetchar.io import html as htmlio
 #file = open('hi.html', 'w')
 page = htmlio.new_bootstrap_page(title='scattering')
 
-
-
 page.div(class_='container')
-page.div(class_='dropdown')
-page.button(class_='dropbtn')
 page.h1('scattering:')
-page.p("This analysis looks for whistles in the data using a technique developed by Patrick Meyers.")
+page.p("Title Information")
 page.div.close()
-
-page.button()
-
-
-page.button.close()
 
 page.div(class_='panel-heading')
 page.p('This is segment' + 'seg')
 
 for x in range(4):
+    page.div(class_='container')
+    page.p('Title Information x' + str(x))
     for y in range(4):
+        page.div(class_='container')
+        page.p('Title Information y' + str(y))
+        page.div.close()
+    page.div.close()
+
+page.div.close()
         
 
 
