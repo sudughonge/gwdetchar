@@ -48,7 +48,9 @@ from gwpy.segments import (DataQualityFlag, DataQualityDict,
 
 #Added this so we can make html
 from gwdetchar.io import html as htmlio
-import gwdetchar.whistles as gww
+print('IMPORTED HTMLIO')
+import whistles
+print('SPOT2')
 
     
     
@@ -68,6 +70,7 @@ rcParams.update({
 # Read command line options
 parser = cli.create_parser(description=__doc__)
 cli.add_gps_start_stop_arguments(parser)
+print('SPOT3')
 parser.add_argument('config-file', type=str, help='Config file for the analysis', 
 										default='/home/sudarshan.ghonge/Projects/whistles/L1_whistle_default.ini')
 parser.add_argument('-o', '--output-dir', type=str, default=os.curdir, 
@@ -79,7 +82,10 @@ parser.add_argument('-m', '--no-imcf', action='store_true',
 parser.add_argument('-d', '--detrend', choices=['linear', 'constant'], default='constant')
 cli.add_nproc_option(parser)
 
+print('SPOT4')
 args = parser.parse_args()
+
+print('SPOT1')
 
 # Load command line options
 config_file = args.config_file
@@ -150,7 +156,7 @@ for seg in state.active:
 		hist_overall_vco, be = np.histogram(vco_after_detrend, bins=be)
 		bcs = (be[1:	] + be[:-1])/2
 		
-		whistles.write_histogram('%s-HISTOGRAMS'%tag, bin_centers=bcs, hist_trigger_vco, hist_overall_vco, detrend_func)
+		whistles.write_histogram('%s-HISTOGRAMS'%tag, bcs, hist_trigger_vco, hist_overall_vco, detrend_func)
 		whistles.plot_trigger_histogram('%s-HISTOGRAMS'%tag, bcs, hist_trigger_vco, time=(seg[1] -seg[0]), label='%s Triggers'%chan )
 		
 		whistles.iterative_fitting()
@@ -159,20 +165,19 @@ for seg in state.active:
 		page.p('This is channel ' + chan)
 
 		#print figures here
+		file = 'IMAGE FILENAME'
+
+		page.img(src_=file)
 
 		#label figure
 		page.p('This figure is...')
 
 
 		#add link to xml file
-		page.a()
-		page.p('XML file link here')
-		page.a.close()
-
-		page.div.close()
-
-
-
+	page.a()
+	page.p('XML file link here')
+	page.a.close()
+	page.div.close()
 	page.div.close()
 
 # write HTML

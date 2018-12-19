@@ -22,15 +22,21 @@ for x in range(4):
         page.div(class_='container')
         page.p('Title Information y' + str(y))
         page.div.close()
+        # HOW TO ADD IMAGE:
+        file = 'download.png'
+        f = open(file)
+        page.IMG(src_=file)
+        page.p('Just opened image')
     page.div.close()
 
 page.div.close()
         
-
-
+# HOW TO LINK XML FiLE BELOW:
 # link XML file
-page.a()
-page.p('XML file link')
+xml = 'sample.xml'
+x = open(xml)
+page.a(href_=xml)
+page.p('hello')
 page.a.close()
 
 
