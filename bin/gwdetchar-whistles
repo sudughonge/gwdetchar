@@ -48,9 +48,9 @@ from gwpy.segments import (DataQualityFlag, DataQualityDict,
 
 #Added this so we can make html
 from gwdetchar.io import html as htmlio
-print('IMPORTED HTMLIO')
+# print('IMPORTED HTMLIO')
 import whistles
-print('SPOT2')
+# print('SPOT2')
 
     
     
@@ -70,9 +70,9 @@ rcParams.update({
 # Read command line options
 parser = cli.create_parser(description=__doc__)
 cli.add_gps_start_stop_arguments(parser)
-print('SPOT3')
+# print('SPOT3')
 parser.add_argument('config-file', type=str, help='Config file for the analysis', 
-										default='/home/sudarshan.ghonge/Projects/whistles/L1_whistle_default.ini')
+										default='/Users/SamLehman/Documents/SudarshanProject/gwdetchar/bin/test_4.ini')
 parser.add_argument('-o', '--output-dir', type=str, default=os.curdir, 
 										help='Output directory to post all the results of the analysis')
 parser.add_argument('-p', '--padding', type=str, default=8,
@@ -82,10 +82,10 @@ parser.add_argument('-m', '--no-imcf', action='store_true',
 parser.add_argument('-d', '--detrend', choices=['linear', 'constant'], default='constant')
 cli.add_nproc_option(parser)
 
-print('SPOT4')
+# print('SPOT4')
 args = parser.parse_args()
 
-print('SPOT1')
+# print('SPOT1')
 
 # Load command line options
 config_file = args.config_file
@@ -157,20 +157,28 @@ for seg in state.active:
 		bcs = (be[1:	] + be[:-1])/2
 		
 		whistles.write_histogram('%s-HISTOGRAMS'%tag, bcs, hist_trigger_vco, hist_overall_vco, detrend_func)
-		whistles.plot_trigger_histogram('%s-HISTOGRAMS'%tag, bcs, hist_trigger_vco, time=(seg[1] -seg[0]), label='%s Triggers'%chan )
+		trigfname = whistles.plot_trigger_histogram('%s-HISTOGRAMS'%tag, bcs, hist_trigger_vco, time=(seg[1] -seg[0]), label='%s Triggers'%chan )
 		
-		whistles.iterative_fitting()
+		[whistle_hist_fname, whistle_resids_fname, whistle_hist_with_bkrnd] = whistles.iterative_fitting()
 
 		page.div(class_='panel-heading')
 		page.p('This is channel ' + chan)
 
-		#print figures here
-		file = 'IMAGE FILENAME'
+		plot1 = '%s.png' %trigfname
+		page.img(src_=plot1)
+		page.p('This figure is plot ' + trigfname)
 
-		page.img(src_=file)
+		plot2 = '%s.png' %whistle_hist_fname
+		page.img(src_=plot2)
+		page.p('This figure is plot ' + whistle_hist_fname)
 
-		#label figure
-		page.p('This figure is...')
+		plot3 = '%s.png' %whistle_resids_fname
+		page.img(src_=plot3)
+		page.p('This figure is plot ' + whistle_resids_fname)
+
+		plot4 = '%s.png' %whistle_hist_with_bkrnd
+		page.img(src_=plot4)
+		page.p('This figure is plot ' + whistle_hist_with_bkrnd)
 
 
 		#add link to xml file

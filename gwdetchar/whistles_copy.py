@@ -117,6 +117,7 @@ def plot_trigger_histogram(fname ,bin_centers, trigger_hist, time=1, label=None)
         plt.ylabel('Rate [Hz]', fontsize=20)
     plt.tick_params(labelsize=16)
     plt.savefig('%s.png'%fname)
+    return fname
     
     
 def iterative_fitting(trigger_hist, vco_hist, bin_centers, TOTTIME, chan='TEST',
@@ -254,4 +255,5 @@ def iterative_fitting(trigger_hist, vco_hist, bin_centers, TOTTIME, chan='TEST',
     plt.legend()
     plt.savefig(whistle_resids_fname)
     plt.close()
+    return(whistle_hist_fname, whistle_resids_fname, whistle_hist_with_bkrnd)
 
