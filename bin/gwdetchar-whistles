@@ -49,7 +49,7 @@ from gwpy.segments import (DataQualityFlag, DataQualityDict,
 #Added this so we can make html
 from gwdetchar.io import html as htmlio
 # print('IMPORTED HTMLIO')
-import whistles
+import whistles_copy as whistles
 # print('SPOT2')
 
     
@@ -182,8 +182,11 @@ for seg in state.active:
 
 
 		#add link to xml file
-	page.a()
-	page.p('XML file link here')
+
+
+	xml = '%s.xml' %xmlname
+	page.a(href_=xml)
+	page.a.print(xml)
 	page.a.close()
 	page.div.close()
 	page.div.close()
